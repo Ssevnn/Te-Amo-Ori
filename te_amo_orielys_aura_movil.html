@@ -1,0 +1,153 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Te amo Orielys</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: black;
+      overflow: hidden;
+      font-family: 'Arial', sans-serif;
+      position: relative;
+      height: 100vh;
+      cursor: pointer;
+      touch-action: manipulation;
+    }
+
+    .mensaje-central {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: hotpink;
+      font-size: 6vw;
+      text-shadow: 0 0 10px #ff69b4, 0 0 20px #ff69b4, 0 0 30px #ff1493;
+      z-index: 2;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    .te-amo {
+      position: absolute;
+      color: pink;
+      font-size: 4vw;
+      pointer-events: none;
+      animation: caer 5s linear forwards;
+      white-space: nowrap;
+      text-shadow: 0 0 5px #ff69b4, 0 0 10px #ff69b4, 0 0 15px #ff1493;
+    }
+
+    @keyframes caer {
+      0% {
+        transform: translateY(-50px);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(100vh);
+        opacity: 0;
+      }
+    }
+
+    .click-amor {
+      position: absolute;
+      color: pink;
+      font-size: 5vw;
+      pointer-events: none;
+      animation: desvanecer 2s ease-out forwards;
+      white-space: nowrap;
+      text-shadow: 0 0 5px #ff69b4, 0 0 10px #ff69b4, 0 0 20px #ff1493;
+    }
+
+    @keyframes desvanecer {
+      0% {
+        opacity: 1;
+        transform: scale(1);
+      }
+      100% {
+        opacity: 0;
+        transform: scale(1.5);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Texto central -->
+  <div class="mensaje-central">Te amo Orielys</div>
+
+  <!-- Contenedor del reproductor de YouTube (inicialmente oculto) -->
+  <div id="video-container" style="display:none; position:fixed; top:-9999px;">
+    <iframe id="youtube-player"
+      width="1" height="1"
+      src=""
+      frameborder="0"
+      allow="autoplay"
+      allowfullscreen>
+    </iframe>
+  </div>
+
+  <script>
+    // Iniciar música con el primer toque
+    function iniciarMusica() {
+      const iframe = document.getElementById("youtube-player");
+      iframe.src = "https://www.youtube.com/embed/4okmffpX0Ic?autoplay=1&loop=1&playlist=4okmffpX0Ic";
+      document.getElementById("video-container").style.display = "block";
+      document.body.removeEventListener('click', iniciarMusica);
+      document.body.removeEventListener('touchstart', iniciarMusica);
+    }
+    document.body.addEventListener('click', iniciarMusica);
+    document.body.addEventListener('touchstart', iniciarMusica);
+
+    // Lluvia de "te amo" en línea recta
+    function crearTeAmo() {
+      const elemento = document.createElement('div');
+      elemento.classList.add('te-amo');
+      elemento.innerText = 'te amo';
+
+      const x = Math.random() * window.innerWidth;
+      elemento.style.left = `${x}px`;
+      elemento.style.top = '-30px';
+
+      document.body.appendChild(elemento);
+      setTimeout(() => elemento.remove(), 5000);
+    }
+
+    setInterval(() => {
+      for (let i = 0; i < 5; i++) crearTeAmo(); // más "te amo" por ráfaga
+    }, 400);
+
+    // Crear múltiples "Te amo ❤️" en clic o toque
+    function mostrarClickAmor(x, y) {
+      for (let i = 0; i < 3; i++) {
+        const toque = document.createElement('div');
+        toque.classList.add('click-amor');
+        toque.innerText = 'Te amo ❤️';
+
+        // Posición ligeramente variada para los 3
+        const offsetX = (Math.random() - 0.5) * 100;
+        const offsetY = (Math.random() - 0.5) * 50;
+
+        toque.style.left = `${x + offsetX}px`;
+        toque.style.top = `${y + offsetY}px`;
+
+        document.body.appendChild(toque);
+        setTimeout(() => toque.remove(), 2000);
+      }
+    }
+
+    document.body.addEventListener('click', (e) => {
+      mostrarClickAmor(e.clientX, e.clientY);
+    });
+
+    document.body.addEventListener('touchstart', (e) => {
+      const touch = e.touches[0];
+      mostrarClickAmor(touch.clientX, touch.clientY);
+    });
+  </script>
+
+</body>
+</html>
