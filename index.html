@@ -67,6 +67,18 @@
         white-space: nowrap;
         animation: desvanecer-texto 1.5s ease-out forwards;
     }
+    
+    .texto-del-click {
+      position: absolute;
+      color: red;
+      font-size: 24px;
+      font-weight: bold;
+      pointer-events: none;
+      opacity: 0;
+      animation: fade-in-out 1s forwards;
+      transform: translate(-50%, -50%);
+      z-index: 100;
+    }
 
     @keyframes explosion-fuegos-artificiales {
       0% {
@@ -93,6 +105,13 @@
         transform: scale(1.5);
       }
     }
+    
+    @keyframes fade-in-out {
+      0% { opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { opacity: 0; }
+    }
   </style>
 </head>
 <body>
@@ -100,13 +119,9 @@
   <div class="mensaje-central">Te amo Orielys</div>
 
   <script>
-    // Se crea un objeto Audio con tu archivo MP3
     const audio = new Audio('Lil Peep x ILoveMakonnen - Cry Baby 2 (Official Audio).mp3');
-
-    // Esta línea hace que la canción se repita automáticamente
     audio.loop = true;
 
-    // Función para iniciar la música con el primer toque
     function iniciarMusica() {
       audio.play().catch(error => {
         console.error("Error al reproducir el audio:", error);
@@ -115,11 +130,9 @@
       document.body.removeEventListener('touchstart', iniciarMusica);
     }
     
-    // El audio se reproduce con el primer clic o toque en la pantalla
     document.body.addEventListener('click', iniciarMusica);
     document.body.addEventListener('touchstart', iniciarMusica);
 
-    // Ráfagas de "te amo" y "Me encantas"
     function crearMensajeDeAmor() {
       const elemento = document.createElement('div');
       elemento.classList.add('te-amo');
@@ -139,39 +152,38 @@
       for (let i = 0; i < 5; i++) crearMensajeDeAmor();
     }, 400);
 
-    // Función para la explosión de corazones estilo fuegos artificiales
     function mostrarExplosion(x, y) {
       // 1. Crear el mensaje "Te amo" en el clic
       const texto = document.createElement('div');
-      texto.classList.add('corazon-explosion', 'texto-explosion');
+      texto.classList.add('texto-del-click');
       texto.innerText = 'Te amo ❤️';
       texto.style.left = `${x}px`;
       texto.style.top = `${y}px`;
       document.body.appendChild(texto);
-      setTimeout(() => texto.remove(), 1500);
-
-      // 2. Crear la ráfaga de corazones
+      
+      // 2. Crear la ráfaga de corazones con un retraso
       const numCorazones = 30;
       const radioMaximo = 100;
-      for (let i = 0; i < numCorazones; i++) {
-        const corazon = document.createElement('div');
-        corazon.classList.add('corazon-explosion');
-        corazon.innerText = '💗';
+      setTimeout(() => {
+          for (let i = 0; i < numCorazones; i++) {
+            const corazon = document.createElement('div');
+            corazon.classList.add('corazon-explosion');
+            corazon.innerText = '💗';
 
-        // Ajusta la dispersión para que los corazones no se amontonen debajo del texto
-        const angulo = Math.random() * 2 * Math.PI;
-        const distancia = Math.random() * radioMaximo + 20; // Aumenta la distancia mínima
-        const dx = Math.cos(angulo) * distancia;
-        const dy = Math.sin(angulo) * distancia;
+            const angulo = Math.random() * 2 * Math.PI;
+            const distancia = Math.random() * radioMaximo + 20;
+            const dx = Math.cos(angulo) * distancia;
+            const dy = Math.sin(angulo) * distancia;
 
-        corazon.style.setProperty('--dx-fuego', `${dx}px`);
-        corazon.style.setProperty('--dy-fuego', `${dy}px`);
-        corazon.style.left = `${x}px`;
-        corazon.style.top = `${y}px`;
+            corazon.style.setProperty('--dx-fuego', `${dx}px`);
+            corazon.style.setProperty('--dy-fuego', `${dy}px`);
+            corazon.style.left = `${x}px`;
+            corazon.style.top = `${y}px`;
 
-        document.body.appendChild(corazon);
-        setTimeout(() => corazon.remove(), 1200);
-      }
+            document.body.appendChild(corazon);
+            setTimeout(() => corazon.remove(), 1200);
+          }
+      }, 500); // 500ms de retraso para que el mensaje aparezca primero
     }
 
     document.body.addEventListener('click', (e) => {
