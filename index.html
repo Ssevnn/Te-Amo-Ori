@@ -1,17 +1,17 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Te amo Orielys</title>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
   <style>
     body {
       margin: 0;
       padding: 0;
       background-color: black;
       overflow: hidden;
-      font-family: 'Arial', sans-serif;
+      font-family: 'Dancing Script', cursive;
       position: relative;
       height: 100vh;
       cursor: pointer;
@@ -76,33 +76,31 @@
 </head>
 <body>
 
-  <!-- Texto central -->
   <div class="mensaje-central">Te amo Orielys</div>
 
-  <!-- Contenedor del reproductor de YouTube (inicialmente oculto) -->
-  <div id="video-container" style="display:none; position:fixed; top:-9999px;">
-    <iframe id="youtube-player"
-      width="1" height="1"
-      src=""
-      frameborder="0"
-      allow="autoplay"
-      allowfullscreen>
-    </iframe>
-  </div>
-
   <script>
-    // Iniciar música con el primer toque
+    // Se crea un objeto Audio con tu archivo MP3
+    const audio = new Audio(Lil Peep x ILoveMakonnen - Cry Baby 2 (Official Audio).mp3);
+
+    // Esta línea hace que la canción se repita automáticamente
+    audio.loop = true;
+
+    // Función para iniciar la música con el primer toque
     function iniciarMusica() {
-      const iframe = document.getElementById("youtube-player");
-      iframe.src = "https://www.youtube.com/embed/4okmffpX0Ic?autoplay=1&loop=1&playlist=4okmffpX0Ic";
-      document.getElementById("video-container").style.display = "block";
+      // Inicia la reproducción del audio
+      audio.play().catch(error => {
+        console.error("Error al reproducir el audio:", error);
+      });
+      // Elimina los "listeners" para que la función solo se ejecute una vez
       document.body.removeEventListener('click', iniciarMusica);
       document.body.removeEventListener('touchstart', iniciarMusica);
     }
+    
+    // El audio se reproduce con el primer clic o toque en la pantalla
     document.body.addEventListener('click', iniciarMusica);
     document.body.addEventListener('touchstart', iniciarMusica);
 
-    // Lluvia de "te amo" en línea recta
+    // Ráfagas de "te amo"
     function crearTeAmo() {
       const elemento = document.createElement('div');
       elemento.classList.add('te-amo');
@@ -117,17 +115,16 @@
     }
 
     setInterval(() => {
-      for (let i = 0; i < 5; i++) crearTeAmo(); // más "te amo" por ráfaga
+      for (let i = 0; i < 5; i++) crearTeAmo();
     }, 400);
 
-    // Crear múltiples "Te amo ❤️" en clic o toque
+    // Efecto de clic o toque con 3 corazones
     function mostrarClickAmor(x, y) {
       for (let i = 0; i < 3; i++) {
         const toque = document.createElement('div');
         toque.classList.add('click-amor');
         toque.innerText = 'Te amo ❤️';
 
-        // Posición ligeramente variada para los 3
         const offsetX = (Math.random() - 0.5) * 100;
         const offsetY = (Math.random() - 0.5) * 50;
 
@@ -151,3 +148,4 @@
 
 </body>
 </html>
+
