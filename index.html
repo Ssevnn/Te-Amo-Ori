@@ -41,14 +41,8 @@
     }
 
     @keyframes caer {
-      0% {
-        transform: translateY(-50px);
-        opacity: 1;
-      }
-      100% {
-        transform: translateY(100vh);
-        opacity: 0;
-      }
+      0% { transform: translateY(-50px); opacity: 1; }
+      100% { transform: translateY(100vh); opacity: 0; }
     }
 
     .corazon-explosion {
@@ -63,14 +57,15 @@
 
     .texto-del-click {
       position: absolute;
-      color: red;
-      font-size: 24px;
+      color: hotpink;
+      font-size: 28px;
       font-weight: bold;
       pointer-events: none;
       opacity: 0;
       animation: fade-in-out 1s forwards;
       transform: translate(-50%, -50%);
       z-index: 101;
+      text-shadow: 0 0 8px #ff69b4, 0 0 16px #ff69b4, 0 0 24px #ff1493;
     }
 
     @keyframes explosion-fuegos-artificiales {
@@ -129,19 +124,19 @@
     }, 400);
 
     function mostrarExplosion(x, y) {
-      // Mensaje principal
-      for (let i = 0; i < 3; i++) {
-        const texto = document.createElement('div');
-        texto.classList.add('texto-del-click');
-        texto.innerText = 'Te amo ❤️';
-        texto.style.left = `${x + (Math.random() * 60 - 30)}px`;
-        texto.style.top = `${y + (Math.random() * 40 - 20)}px`;
-        document.body.appendChild(texto);
-        setTimeout(() => texto.remove(), 1000);
-      }
+      // Mensaje rosa con aura
+      const texto = document.createElement('div');
+      texto.classList.add('texto-del-click');
+      texto.innerText = 'Te amo ❤️';
+      texto.style.left = `${x}px`;
+      texto.style.top = `${y}px`;
+      document.body.appendChild(texto);
+      setTimeout(() => texto.remove(), 1000);
 
+      // Corazones en fuegos artificiales
       const numCorazones = 40;
-      const radioMaximo = 100;
+      const radioMin = 60;
+      const radioMax = 140;
 
       setTimeout(() => {
         for (let i = 0; i < numCorazones; i++) {
@@ -150,7 +145,7 @@
           corazon.innerText = '💗';
 
           const angulo = Math.random() * 2 * Math.PI;
-          const distancia = Math.random() * radioMaximo + 20;
+          const distancia = radioMin + Math.random() * (radioMax - radioMin);
           const dx = Math.cos(angulo) * distancia;
           const dy = Math.sin(angulo) * distancia;
 
@@ -158,12 +153,11 @@
           corazon.style.top = `${y}px`;
           corazon.style.setProperty('--dx-fuego', `${dx}px`);
           corazon.style.setProperty('--dy-fuego', `${dy}px`);
-          corazon.style.transform = `translate(-50%, -50%) scale(${0.8 + Math.random() * 1.5}) rotate(${Math.random() * 360}deg)`;
-
           document.body.appendChild(corazon);
-          setTimeout(() => corazon.remove(), 1200);
+
+          setTimeout(() => corazon.remove(), 1300);
         }
-      }, 300);
+      }, 200);
     }
 
     document.body.addEventListener('click', e => mostrarExplosion(e.clientX, e.clientY));
