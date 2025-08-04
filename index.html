@@ -158,8 +158,9 @@
         corazon.classList.add('corazon-explosion');
         corazon.innerText = '💗';
 
+        // Ajusta la dispersión para que los corazones no se amontonen debajo del texto
         const angulo = Math.random() * 2 * Math.PI;
-        const distancia = Math.random() * radioMaximo + 20;
+        const distancia = Math.random() * radioMaximo + 20; // Aumenta la distancia mínima
         const dx = Math.cos(angulo) * distancia;
         const dy = Math.sin(angulo) * distancia;
 
