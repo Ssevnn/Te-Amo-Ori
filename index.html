@@ -1,190 +1,191 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Te amo Orielys</title>
-  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      background-color: black;
-      overflow: hidden;
-      font-family: 'Dancing Script', cursive;
-      position: relative;
-      height: 100vh;
-      cursor: pointer;
-      touch-action: manipulation;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Para mi amor</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+            background-color: #000;
+            font-family: 'Arial', sans-serif;
+            color: white;
+            text-align: center;
+        }
 
-    .mensaje-central {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      color: hotpink;
-      font-size: 6vw;
-      text-shadow: 0 0 10px #ff69b4, 0 0 20px #ff69b4, 0 0 30px #ff1493;
-      z-index: 2;
-      text-align: center;
-      white-space: nowrap;
-    }
+        #bg-video {
+            position: fixed;
+            right: 0;
+            bottom: 0;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            z-index: -100;
+            filter: grayscale(100%);
+            opacity: 0.6;
+        }
 
-    .te-amo {
-      position: absolute;
-      color: pink;
-      font-size: 4vw;
-      pointer-events: none;
-      animation: caer 5s linear forwards;
-      white-space: nowrap;
-      text-shadow: 0 0 5px #ff69b4, 0 0 10px #ff69b4, 0 0 15px #ff1493;
-    }
+        .heart {
+            position: absolute;
+            font-size: 24px;
+            pointer-events: none;
+            opacity: 0;
+            animation: heart-fall linear infinite;
+            z-index: 99;
+        }
 
-    @keyframes caer {
-      0% {
-        transform: translateY(-50px);
-        opacity: 1;
-      }
-      100% {
-        transform: translateY(100vh);
-        opacity: 0;
-      }
-    }
+        .heart-explosion {
+            position: absolute;
+            font-size: 20px;
+            pointer-events: none;
+            opacity: 0;
+            animation: heart-explosion-anim 1.5s forwards;
+            transform: translate(-50%, -50%);
+        }
 
-    .corazon-explosion {
-      position: absolute;
-      color: hotpink;
-      font-size: 2vw;
-      pointer-events: none;
-      text-shadow: 0 0 5px #ff69b4, 0 0 10px #ff69b4, 0 0 20px #ff1493;
-      animation: explosion-fuegos-artificiales 1.2s ease-out forwards;
-    }
+        .message {
+            position: absolute;
+            font-size: 20px;
+            color: pink;
+            pointer-events: none;
+            opacity: 0;
+            animation: message-fall linear infinite;
+            z-index: 100;
+            white-space: nowrap;
+        }
 
-    .texto-explosion {
-        font-size: 6vw;
-        font-weight: 700;
-        white-space: nowrap;
-        animation: desvanecer-texto 1.5s ease-out forwards;
-    }
+        .click-message {
+            position: absolute;
+            font-size: 24px;
+            color: red;
+            font-weight: bold;
+            pointer-events: none;
+            opacity: 0;
+            animation: fade-in-out 1s forwards;
+            transform: translate(-50%, -50%);
+        }
 
-    @keyframes explosion-fuegos-artificiales {
-      0% {
-        transform: translate(-50%, -50%) scale(0.8);
-        opacity: 1;
-      }
-      50% {
-        transform: translate(calc(-50% + var(--dx-fuego)), calc(-50% + var(--dy-fuego)) -20px) scale(1.2);
-        opacity: 0.8;
-      }
-      100% {
-        transform: translate(calc(-50% + var(--dx-fuego) * 1.5), calc(-50% + var(--dy-fuego)) -50px) scale(1.5);
-        opacity: 0;
-      }
-    }
+        #main-text {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 4em;
+            color: white;
+            text-shadow: 2px 2px 4px #000000;
+            opacity: 0;
+            animation: fade-in 2s forwards;
+            cursor: pointer;
+            z-index: 10;
+        }
 
-    @keyframes desvanecer-texto {
-      0% {
-        opacity: 1;
-        transform: scale(1);
-      }
-      100% {
-        opacity: 0;
-        transform: scale(1.5);
-      }
-    }
-  </style>
+        @keyframes fade-in {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes heart-fall {
+            0% { transform: translateY(-10vh) scale(0.5); opacity: 0.8; }
+            100% { transform: translateY(110vh) scale(1.5); opacity: 0; }
+        }
+
+        @keyframes message-fall {
+            0% { transform: translateY(-10vh) scale(0.5); opacity: 0.9; }
+            100% { transform: translateY(110vh) scale(1.2); opacity: 0; }
+        }
+
+        @keyframes heart-explosion-anim {
+            0% { transform: translate(-50%, -50%) scale(0.5); opacity: 1; }
+            100% { transform: translate(-50%, -50%) scale(2); opacity: 0; }
+        }
+
+        @keyframes fade-in-out {
+            0% { opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+    </style>
 </head>
 <body>
+    <audio id="background-music" loop>
+        <source src="Lil Peep x ILoveMakonnen - Cry Baby 2 (Official Audio).mp3" type="audio/mpeg">
+    </audio>
 
-  <div class="mensaje-central">Te amo Orielys</div>
+    <div id="main-text">
+        Haz clic aquí
+    </div>
 
-  <script>
-    // Se crea un objeto Audio con tu archivo MP3
-    const audio = new Audio('Lil Peep x ILoveMakonnen - Cry Baby 2 (Official Audio).mp3');
+    <script>
+        const audio = document.getElementById('background-music');
+        const mainText = document.getElementById('main-text');
+        let audioPlayed = false;
 
-    // Esta línea hace que la canción se repita automáticamente
-    audio.loop = true;
+        document.addEventListener('click', function(event) {
+            if (!audioPlayed) {
+                audio.play();
+                audioPlayed = true;
+                mainText.style.display = 'none';
+            }
 
-    // Función para iniciar la música con el primer toque
-    function iniciarMusica() {
-      audio.play().catch(error => {
-        console.error("Error al reproducir el audio:", error);
-      });
-      document.body.removeEventListener('click', iniciarMusica);
-      document.body.removeEventListener('touchstart', iniciarMusica);
-    }
-    
-    // El audio se reproduce con el primer clic o toque en la pantalla
-    document.body.addEventListener('click', iniciarMusica);
-    document.body.addEventListener('touchstart', iniciarMusica);
+            createClickMessage(event.clientX, event.clientY);
+            setTimeout(() => {
+                createHeartExplosion(event.clientX, event.clientY);
+            }, 500); // Un pequeño retraso para que se vea primero el mensaje
 
-    // Ráfagas de "te amo" y "Me encantas"
-    function crearMensajeDeAmor() {
-      const elemento = document.createElement('div');
-      elemento.classList.add('te-amo');
-      
-      const mensaje = Math.random() < 0.5 ? 'te amo' : 'Me encantas';
-      elemento.innerText = mensaje;
+        });
 
-      const x = Math.random() * window.innerWidth;
-      elemento.style.left = `${x}px`;
-      elemento.style.top = '-30px';
+        function createHeartExplosion(x, y) {
+            for (let i = 0; i < 20; i++) {
+                const heart = document.createElement('span');
+                heart.className = 'heart-explosion';
+                heart.textContent = '💗';
+                heart.style.left = `${x}px`;
+                heart.style.top = `${y}px`;
+                heart.style.animationDelay = `${Math.random() * 0.5}s`;
+                const angle = Math.random() * 360;
+                const distance = Math.random() * 100 + 50;
+                const finalX = x + distance * Math.cos(angle * Math.PI / 180);
+                const finalY = y + distance * Math.sin(angle * Math.PI / 180);
+                heart.style.setProperty('--final-x', `${finalX}px`);
+                heart.style.setProperty('--final-y', `${finalY}px`);
+                document.body.appendChild(heart);
+                heart.addEventListener('animationend', () => heart.remove());
+            }
+        }
 
-      document.body.appendChild(elemento);
-      setTimeout(() => elemento.remove(), 5000);
-    }
-    
-    setInterval(() => {
-      for (let i = 0; i < 5; i++) crearMensajeDeAmor();
-    }, 400);
+        function createClickMessage(x, y) {
+            const messageText = 'Te amo ❤️';
+            const clickMessage = document.createElement('div');
+            clickMessage.className = 'click-message';
+            clickMessage.textContent = messageText;
+            clickMessage.style.left = `${x}px`;
+            clickMessage.style.top = `${y}px`;
+            document.body.appendChild(clickMessage);
+            clickMessage.addEventListener('animationend', () => clickMessage.remove());
+        }
 
-    // Función para la explosión de corazones estilo fuegos artificiales
-    function mostrarExplosion(x, y) {
-      // 1. Crear el mensaje "Te amo" en el clic
-      const texto = document.createElement('div');
-      texto.classList.add('corazon-explosion', 'texto-explosion');
-      texto.innerText = 'Te amo ❤️';
-      texto.style.left = `${x}px`;
-      texto.style.top = `${y}px`;
-      document.body.appendChild(texto);
-      setTimeout(() => texto.remove(), 1500);
+        function createFallingItem(type) {
+            const item = document.createElement('span');
+            item.textContent = type === 'heart' ? '❤️' : (Math.random() > 0.5 ? 'te amo' : 'Me encantas');
+            item.className = type === 'heart' ? 'heart' : 'message';
+            item.style.left = `${Math.random() * 100}vw`;
+            item.style.animationDuration = `${Math.random() * 5 + 5}s`;
+            item.style.fontSize = `${Math.random() * 15 + 10}px`;
+            document.body.appendChild(item);
+            item.addEventListener('animationend', () => item.remove());
+        }
 
-      // 2. Crear la ráfaga de corazones
-      const numCorazones = 30;
-      const radioMaximo = 100;
-      for (let i = 0; i < numCorazones; i++) {
-        const corazon = document.createElement('div');
-        corazon.classList.add('corazon-explosion');
-        corazon.innerText = '💗';
+        setInterval(() => {
+            if (audioPlayed) {
+                createFallingItem(Math.random() > 0.5 ? 'heart' : 'message');
+            }
+        }, 500);
 
-        // Ajusta la dispersión para que los corazones no se amontonen debajo del texto
-        const angulo = Math.random() * 2 * Math.PI;
-        const distancia = Math.random() * radioMaximo + 20; // Aumenta la distancia mínima
-        const dx = Math.cos(angulo) * distancia;
-        const dy = Math.sin(angulo) * distancia;
-
-        corazon.style.setProperty('--dx-fuego', `${dx}px`);
-        corazon.style.setProperty('--dy-fuego', `${dy}px`);
-        corazon.style.left = `${x}px`;
-        corazon.style.top = `${y}px`;
-
-        document.body.appendChild(corazon);
-        setTimeout(() => corazon.remove(), 1200);
-      }
-    }
-
-    document.body.addEventListener('click', (e) => {
-      mostrarExplosion(e.clientX, e.clientY);
-    });
-
-    document.body.addEventListener('touchstart', (e) => {
-      const touch = e.touches?.[0];
-      if (touch) {
-        mostrarExplosion(touch.clientX, touch.clientY);
-      }
-    });
-  </script>
-
+    </script>
 </body>
 </html>
