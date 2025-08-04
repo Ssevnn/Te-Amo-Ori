@@ -58,16 +58,20 @@
       font-size: 2vw;
       pointer-events: none;
       text-shadow: 0 0 5px #ff69b4, 0 0 10px #ff69b4, 0 0 20px #ff1493;
-      animation: explotar 1s ease-out forwards;
+      animation: explosion-fuegos-artificiales 1.2s ease-out forwards;
     }
 
-    @keyframes explotar {
+    @keyframes explosion-fuegos-artificiales {
       0% {
-        transform: translate(-50%, -50%) scale(0.5);
+        transform: translate(-50%, -50%) scale(0.8);
         opacity: 1;
       }
+      50% {
+        transform: translate(calc(-50% + var(--dx-fuego)), calc(-50% + var(--dy-fuego)) -20px) scale(1.2);
+        opacity: 0.8;
+      }
       100% {
-        transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(1.5);
+        transform: translate(calc(-50% + var(--dx-fuego) * 1.5), calc(-50% + var(--dy-fuego)) -50px) scale(1.5);
         opacity: 0;
       }
     }
@@ -117,26 +121,27 @@
       for (let i = 0; i < 5; i++) crearMensajeDeAmor();
     }, 400);
 
-    // Función para la explosión de corazones en rosa neón
+    // Función para la explosión de corazones estilo fuegos artificiales
     function mostrarExplosion(x, y) {
-      const numCorazones = 15;
+      const numCorazones = 30;
+      const radioMaximo = 100;
       for (let i = 0; i < numCorazones; i++) {
         const corazon = document.createElement('div');
         corazon.classList.add('corazon-explosion');
         corazon.innerText = '❤️';
 
         const angulo = Math.random() * 2 * Math.PI;
-        const distancia = Math.random() * 50;
+        const distancia = Math.random() * radioMaximo;
         const dx = Math.cos(angulo) * distancia;
         const dy = Math.sin(angulo) * distancia;
 
-        corazon.style.setProperty('--dx', `${dx}px`);
-        corazon.style.setProperty('--dy', `${dy}px`);
+        corazon.style.setProperty('--dx-fuego', `${dx}px`);
+        corazon.style.setProperty('--dy-fuego', `${dy}px`);
         corazon.style.left = `${x}px`;
         corazon.style.top = `${y}px`;
 
         document.body.appendChild(corazon);
-        setTimeout(() => corazon.remove(), 1000);
+        setTimeout(() => corazon.remove(), 1200);
       }
     }
 
