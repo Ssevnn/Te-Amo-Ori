@@ -65,7 +65,7 @@
         font-size: 6vw;
         font-weight: 700;
         white-space: nowrap;
-        animation: explosion-fuegos-artificiales 1.5s ease-out forwards;
+        animation: desvanecer-texto 1.5s ease-out forwards;
     }
 
     @keyframes explosion-fuegos-artificiales {
@@ -80,6 +80,17 @@
       100% {
         transform: translate(calc(-50% + var(--dx-fuego) * 1.5), calc(-50% + var(--dy-fuego)) -50px) scale(1.5);
         opacity: 0;
+      }
+    }
+
+    @keyframes desvanecer-texto {
+      0% {
+        opacity: 1;
+        transform: scale(1);
+      }
+      100% {
+        opacity: 0;
+        transform: scale(1.5);
       }
     }
   </style>
@@ -145,7 +156,7 @@
       for (let i = 0; i < numCorazones; i++) {
         const corazon = document.createElement('div');
         corazon.classList.add('corazon-explosion');
-        corazon.innerText = '❤️';
+        corazon.innerText = '💗'; // Corazón cambiado a "💗"
 
         const angulo = Math.random() * 2 * Math.PI;
         const distancia = Math.random() * radioMaximo;
