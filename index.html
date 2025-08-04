@@ -52,24 +52,23 @@
       }
     }
 
-    .click-amor {
+    .corazon-explosion {
       position: absolute;
-      color: pink;
-      font-size: 5vw;
+      color: hotpink;
+      font-size: 2vw;
       pointer-events: none;
-      animation: desvanecer 2s ease-out forwards;
-      white-space: nowrap;
       text-shadow: 0 0 5px #ff69b4, 0 0 10px #ff69b4, 0 0 20px #ff1493;
+      animation: explotar 1s ease-out forwards;
     }
 
-    @keyframes desvanecer {
+    @keyframes explotar {
       0% {
+        transform: translate(-50%, -50%) scale(0.5);
         opacity: 1;
-        transform: scale(1);
       }
       100% {
+        transform: translate(calc(-50% + var(--dx)), calc(-50% + var(--dy))) scale(1.5);
         opacity: 0;
-        transform: scale(1.5);
       }
     }
   </style>
@@ -87,11 +86,9 @@
 
     // Función para iniciar la música con el primer toque
     function iniciarMusica() {
-      // Inicia la reproducción del audio
       audio.play().catch(error => {
         console.error("Error al reproducir el audio:", error);
       });
-      // Elimina los "listeners" para que la función solo se ejecute una vez
       document.body.removeEventListener('click', iniciarMusica);
       document.body.removeEventListener('touchstart', iniciarMusica);
     }
@@ -100,11 +97,13 @@
     document.body.addEventListener('click', iniciarMusica);
     document.body.addEventListener('touchstart', iniciarMusica);
 
-    // Ráfagas de "te amo"
-    function crearTeAmo() {
+    // Ráfagas de "te amo" y "Me encantas"
+    function crearMensajeDeAmor() {
       const elemento = document.createElement('div');
       elemento.classList.add('te-amo');
-      elemento.innerText = 'te amo';
+      
+      const mensaje = Math.random() < 0.5 ? 'te amo' : 'Me encantas';
+      elemento.innerText = mensaje;
 
       const x = Math.random() * window.innerWidth;
       elemento.style.left = `${x}px`;
@@ -113,39 +112,45 @@
       document.body.appendChild(elemento);
       setTimeout(() => elemento.remove(), 5000);
     }
-
+    
     setInterval(() => {
-      for (let i = 0; i < 5; i++) crearTeAmo();
+      for (let i = 0; i < 5; i++) crearMensajeDeAmor();
     }, 400);
 
-    // Efecto de clic o toque con 3 corazones
-    function mostrarClickAmor(x, y) {
-      for (let i = 0; i < 3; i++) {
-        const toque = document.createElement('div');
-        toque.classList.add('click-amor');
-        toque.innerText = 'Te amo ❤️';
+    // Función para la explosión de corazones en rosa neón
+    function mostrarExplosion(x, y) {
+      const numCorazones = 15;
+      for (let i = 0; i < numCorazones; i++) {
+        const corazon = document.createElement('div');
+        corazon.classList.add('corazon-explosion');
+        corazon.innerText = '❤️';
 
-        const offsetX = (Math.random() - 0.5) * 100;
-        const offsetY = (Math.random() - 0.5) * 50;
+        const angulo = Math.random() * 2 * Math.PI;
+        const distancia = Math.random() * 50;
+        const dx = Math.cos(angulo) * distancia;
+        const dy = Math.sin(angulo) * distancia;
 
-        toque.style.left = `${x + offsetX}px`;
-        toque.style.top = `${y + offsetY}px`;
+        corazon.style.setProperty('--dx', `${dx}px`);
+        corazon.style.setProperty('--dy', `${dy}px`);
+        corazon.style.left = `${x}px`;
+        corazon.style.top = `${y}px`;
 
-        document.body.appendChild(toque);
-        setTimeout(() => toque.remove(), 2000);
+        document.body.appendChild(corazon);
+        setTimeout(() => corazon.remove(), 1000);
       }
     }
 
     document.body.addEventListener('click', (e) => {
-      mostrarClickAmor(e.clientX, e.clientY);
+      mostrarExplosion(e.clientX, e.clientY);
     });
 
     document.body.addEventListener('touchstart', (e) => {
-      const touch = e.touches[0];
-      mostrarClickAmor(touch.clientX, touch.clientY);
+      const touch = e.touches?.[0];
+      if (touch) {
+        mostrarExplosion(touch.clientX, touch.clientY);
+      }
     });
   </script>
 
 </body>
 </html>
-
