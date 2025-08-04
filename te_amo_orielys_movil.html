@@ -1,0 +1,139 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Te amo Orielys</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: black;
+      overflow: hidden;
+      font-family: 'Arial', sans-serif;
+      position: relative;
+      height: 100vh;
+      cursor: pointer;
+      touch-action: manipulation;
+    }
+
+    .mensaje-central {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: hotpink;
+      font-size: 6vw;
+      text-shadow: 0 0 10px #ff69b4, 0 0 20px #ff69b4, 0 0 30px #ff1493;
+      z-index: 2;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    .te-amo {
+      position: absolute;
+      color: pink;
+      font-size: 4vw;
+      pointer-events: none;
+      animation: caer 5s linear forwards;
+      white-space: nowrap;
+    }
+
+    @keyframes caer {
+      0% {
+        transform: translateY(-100px) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+
+    .click-amor {
+      position: absolute;
+      color: pink;
+      font-size: 5vw;
+      pointer-events: none;
+      animation: desvanecer 2s ease-out forwards;
+      white-space: nowrap;
+    }
+
+    @keyframes desvanecer {
+      0% {
+        opacity: 1;
+        transform: scale(1.2);
+      }
+      100% {
+        opacity: 0;
+        transform: scale(1.6);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Texto central -->
+  <div class="mensaje-central">Te amo Orielys</div>
+
+  <!-- Música de fondo desde YouTube -->
+  <iframe width="0" height="0" 
+          src="https://www.youtube.com/embed/4okmffpX0Ic?autoplay=1&loop=1&playlist=4okmffpX0Ic" 
+          frameborder="0" allow="autoplay" allowfullscreen></iframe>
+
+  <script>
+    // Lluvia de "te amo"
+    function crearTeAmo() {
+      const elemento = document.createElement('div');
+      elemento.classList.add('te-amo');
+      elemento.innerText = 'te amo';
+
+      elemento.style.left = Math.random() * window.innerWidth + 'px';
+      elemento.style.top = '-30px';
+
+      document.body.appendChild(elemento);
+
+      setTimeout(() => {
+        elemento.remove();
+      }, 5000);
+    }
+
+    setInterval(crearTeAmo, 300); // cada 300 milisegundos
+
+    // "Te amo ❤️" en cada clic o toque
+    document.body.addEventListener('click', function(e) {
+      const toque = document.createElement('div');
+      toque.classList.add('click-amor');
+      toque.innerText = 'Te amo ❤️';
+
+      toque.style.left = e.clientX + 'px';
+      toque.style.top = e.clientY + 'px';
+
+      document.body.appendChild(toque);
+
+      setTimeout(() => {
+        toque.remove();
+      }, 2000);
+    });
+
+    // También escuchar toques en pantallas táctiles
+    document.body.addEventListener('touchstart', function(e) {
+      const touch = e.touches[0];
+      const toque = document.createElement('div');
+      toque.classList.add('click-amor');
+      toque.innerText = 'Te amo ❤️';
+
+      toque.style.left = touch.clientX + 'px';
+      toque.style.top = touch.clientY + 'px';
+
+      document.body.appendChild(toque);
+
+      setTimeout(() => {
+        toque.remove();
+      }, 2000);
+    });
+  </script>
+
+</body>
+</html>
