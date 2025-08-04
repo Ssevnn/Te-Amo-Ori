@@ -61,6 +61,13 @@
       animation: explosion-fuegos-artificiales 1.2s ease-out forwards;
     }
 
+    .texto-explosion {
+        font-size: 6vw;
+        font-weight: 700;
+        white-space: nowrap;
+        animation: explosion-fuegos-artificiales 1.5s ease-out forwards;
+    }
+
     @keyframes explosion-fuegos-artificiales {
       0% {
         transform: translate(-50%, -50%) scale(0.8);
@@ -123,6 +130,16 @@
 
     // Función para la explosión de corazones estilo fuegos artificiales
     function mostrarExplosion(x, y) {
+      // 1. Crear el mensaje "Te amo" en el clic
+      const texto = document.createElement('div');
+      texto.classList.add('corazon-explosion', 'texto-explosion');
+      texto.innerText = 'Te amo ❤️';
+      texto.style.left = `${x}px`;
+      texto.style.top = `${y}px`;
+      document.body.appendChild(texto);
+      setTimeout(() => texto.remove(), 1500);
+
+      // 2. Crear la ráfaga de corazones
       const numCorazones = 30;
       const radioMaximo = 100;
       for (let i = 0; i < numCorazones; i++) {
