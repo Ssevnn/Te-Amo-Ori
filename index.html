@@ -9,12 +9,28 @@
     body {
       margin: 0;
       padding: 0;
-      background-color: black;
+      background: radial-gradient(ellipse at bottom, #1b2735 0%, #090a0f 100%);
       overflow: hidden;
       font-family: 'Dancing Script', cursive;
       height: 100vh;
       cursor: pointer;
       touch-action: manipulation;
+      position: relative;
+    }
+
+    .estrella {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: white;
+      border-radius: 50%;
+      opacity: 0.8;
+      animation: brillar 2s infinite alternate;
+    }
+
+    @keyframes brillar {
+      0% { opacity: 0.3; transform: scale(1); }
+      100% { opacity: 1; transform: scale(1.4); }
     }
 
     .mensaje-central {
@@ -30,29 +46,19 @@
       white-space: nowrap;
     }
 
-    .te-amo {
+    .mensaje-flotante {
       position: absolute;
       color: pink;
-      font-size: 4vw;
+      font-size: 3vw;
       pointer-events: none;
-      animation: caer 5s linear forwards;
+      animation: caer 7s linear forwards;
       white-space: nowrap;
-      text-shadow: 0 0 5px #ff69b4, 0 0 10px #ff69b4, 0 0 15px #ff1493;
+      text-shadow: 0 0 8px #ff69b4, 0 0 16px #ff69b4, 0 0 24px #ff1493;
     }
 
     @keyframes caer {
       0% { transform: translateY(-50px); opacity: 1; }
       100% { transform: translateY(100vh); opacity: 0; }
-    }
-
-    .corazon-explosion {
-      position: absolute;
-      color: hotpink;
-      font-size: 2vw;
-      pointer-events: none;
-      text-shadow: 0 0 5px #ff69b4, 0 0 10px #ff69b4, 0 0 20px #ff1493;
-      animation: explosion-fuegos-artificiales 1.2s ease-out forwards;
-      z-index: 100;
     }
 
     .texto-del-click {
@@ -64,43 +70,54 @@
       opacity: 0;
       animation: fade-in-out 1s forwards;
       transform: translate(-50%, -50%);
-      z-index: 101;
+      z-index: 100;
       text-shadow: 0 0 8px #ff69b4, 0 0 16px #ff69b4, 0 0 24px #ff1493;
     }
 
-    @keyframes explosion-fuegos-artificiales {
-      0% {
-        opacity: 1;
-        transform: translate(-50%, -50%) scale(0.8);
-      }
-      50% {
-        opacity: 0.8;
-        transform: translate(var(--dx-fuego), var(--dy-fuego)) scale(1.2);
-      }
-      100% {
-        opacity: 0;
-        transform: translate(calc(var(--dx-fuego) * 1.5), calc(var(--dy-fuego) * 1.5)) scale(1.5);
-      }
+    @keyframes fade-in-out {
+      0% { opacity: 0; transform: scale(0.8); }
+      10% { opacity: 1; transform: scale(1); }
+      90% { opacity: 1; }
+      100% { opacity: 0; transform: scale(1.4); }
     }
 
-    @keyframes fade-in-out {
-      0% { opacity: 0; }
-      10% { opacity: 1; }
-      90% { opacity: 1; }
-      100% { opacity: 0; }
+    .corazon {
+      position: absolute;
+      color: hotpink;
+      font-size: 24px;
+      pointer-events: none;
+      animation: explosion 1.5s ease-out forwards;
+      z-index: 99;
+      text-shadow: 0 0 5px #ff69b4, 0 0 10px #ff69b4, 0 0 20px #ff1493;
+    }
+
+    @keyframes explosion {
+      0% { transform: translate(0, 0) scale(0.8); opacity: 1; }
+      50% { transform: translate(var(--dx), var(--dy)) scale(1.2); opacity: 0.8; }
+      100% { transform: translate(calc(var(--dx) * 1.5), calc(var(--dy) * 1.5)) scale(1.5); opacity: 0; }
     }
   </style>
 </head>
 <body>
 
-  <div class="mensaje-central">Te amo Orielys</div>
+  <div class="mensaje-central">Te amo Orielys 💖</div>
 
   <script>
+    // Crear estrellas de fondo
+    for (let i = 0; i < 100; i++) {
+      const star = document.createElement('div');
+      star.classList.add('estrella');
+      star.style.left = `${Math.random() * 100}vw`;
+      star.style.top = `${Math.random() * 100}vh`;
+      document.body.appendChild(star);
+    }
+
+    // Audio
     const audio = new Audio('Lil Peep x ILoveMakonnen - Cry Baby 2 (Official Audio).mp3');
     audio.loop = true;
 
     function iniciarMusica() {
-      audio.play().catch(err => console.error("Audio error:", err));
+      audio.play().catch(err => console.error('Error al reproducir audio:', err));
       document.body.removeEventListener('click', iniciarMusica);
       document.body.removeEventListener('touchstart', iniciarMusica);
     }
@@ -108,64 +125,57 @@
     document.body.addEventListener('click', iniciarMusica);
     document.body.addEventListener('touchstart', iniciarMusica);
 
-    function crearMensajeDeAmor() {
-      const elemento = document.createElement('div');
-      elemento.classList.add('te-amo');
-      elemento.innerText = 'te amo';
-      const x = Math.random() * window.innerWidth;
-      elemento.style.left = `${x}px`;
-      elemento.style.top = '-30px';
-      document.body.appendChild(elemento);
-      setTimeout(() => elemento.remove(), 5000);
+    // Mensajes flotantes
+    const mensajes = ['Te amo', 'Me encantas', 'Eres mi todo', 'Te pienso', 'Mi princesa'];
+
+    function crearMensajeFlotante() {
+      const div = document.createElement('div');
+      div.classList.add('mensaje-flotante');
+      div.textContent = mensajes[Math.floor(Math.random() * mensajes.length)];
+      div.style.left = `${Math.random() * 100}vw`;
+      document.body.appendChild(div);
+      setTimeout(() => div.remove(), 7000);
     }
 
     setInterval(() => {
-      for (let i = 0; i < 5; i++) crearMensajeDeAmor();
-    }, 400);
+      for (let i = 0; i < 3; i++) crearMensajeFlotante();
+    }, 500);
 
-    function mostrarExplosion(x, y) {
-      // Mensaje rosa con aura
+    // Explosión de corazones
+    function explosionCorazones(x, y) {
       const texto = document.createElement('div');
       texto.classList.add('texto-del-click');
-      texto.innerText = 'Te amo ❤️';
+      texto.textContent = 'Te amo ❤️';
       texto.style.left = `${x}px`;
       texto.style.top = `${y}px`;
       document.body.appendChild(texto);
       setTimeout(() => texto.remove(), 1000);
 
-      // Corazones en fuegos artificiales
-      const numCorazones = 40;
-      const radioMin = 60;
-      const radioMax = 140;
+      const cantidad = 30;
+      for (let i = 0; i < cantidad; i++) {
+        const corazon = document.createElement('div');
+        corazon.classList.add('corazon');
+        corazon.innerText = '💗';
 
-      setTimeout(() => {
-        for (let i = 0; i < numCorazones; i++) {
-          const corazon = document.createElement('div');
-          corazon.classList.add('corazon-explosion');
-          corazon.innerText = '💗';
+        const angulo = Math.random() * 2 * Math.PI;
+        const distancia = 60 + Math.random() * 80;
+        const dx = Math.cos(angulo) * distancia;
+        const dy = Math.sin(angulo) * distancia;
 
-          const angulo = Math.random() * 2 * Math.PI;
-          const distancia = radioMin + Math.random() * (radioMax - radioMin);
-          const dx = Math.cos(angulo) * distancia;
-          const dy = Math.sin(angulo) * distancia;
+        corazon.style.left = `${x}px`;
+        corazon.style.top = `${y}px`;
+        corazon.style.setProperty('--dx', `${dx}px`);
+        corazon.style.setProperty('--dy', `${dy}px`);
 
-          corazon.style.left = `${x}px`;
-          corazon.style.top = `${y}px`;
-          corazon.style.setProperty('--dx-fuego', `${dx}px`);
-          corazon.style.setProperty('--dy-fuego', `${dy}px`);
-          document.body.appendChild(corazon);
-
-          setTimeout(() => corazon.remove(), 1300);
-        }
-      }, 200);
+        document.body.appendChild(corazon);
+        setTimeout(() => corazon.remove(), 1500);
+      }
     }
 
-    document.body.addEventListener('click', e => mostrarExplosion(e.clientX, e.clientY));
+    document.body.addEventListener('click', e => explosionCorazones(e.clientX, e.clientY));
     document.body.addEventListener('touchstart', e => {
       const touch = e.touches?.[0];
-      if (touch) {
-        mostrarExplosion(touch.clientX, touch.clientY);
-      }
+      if (touch) explosionCorazones(touch.clientX, touch.clientY);
     });
   </script>
 
